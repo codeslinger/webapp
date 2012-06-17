@@ -65,7 +65,7 @@ func (req *Request) Reply(status int, body string) {
   }
   req.replied = true
   req.w.WriteHeader(req.status)
-  if req.contentLength > 0 {
+  if req.r.Method != "HEAD" && req.contentLength > 0 {
     req.w.Write([]byte(body))
   }
 }
