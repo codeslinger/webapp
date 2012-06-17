@@ -11,7 +11,7 @@ import (
   "time"
 )
 
-// --- APP API --------------------------------------------------------------
+// --- WEBAPP API ------------------------------------------------------------
 
 // The RouteHandler is the type a function should be if it wishes to register
 // for handling a route.
@@ -27,7 +27,7 @@ import (
 // matched between the "bar" and the end of the string.
 type RouteHandler func(*Request, []string)
 
-// An Webapp is the main edifice for a web application.
+// A Webapp is the main edifice for a web application.
 type Webapp struct {
   Log     *log.Logger
   LogHits bool
