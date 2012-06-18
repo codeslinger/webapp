@@ -4,7 +4,6 @@ package webapp
 import (
   "net/http"
   "strconv"
-  "strings"
   "time"
 )
 
@@ -35,6 +34,12 @@ func (req *Request) AddHeader(name, val string) {
   req.w.Header().Add(name, val)
 }
 
+// Set a cookie on the client browser. Expires indicates how many seconds in
+// the future the cookie is to expire. (use -1 for no expiry)
+func (req *Request) SetCookie(cookie *Cookie) {
+  req.AddHeader("Set-Cookie", cookie.marshal())
+}
+
 // Respond to the request with an HTTP OK (200) status code and the given
 // response body. Use an empty string for no body.
 func (req *Request) OK(body string) {
@@ -55,7 +60,7 @@ func (req *Request) Reply(status int, body string) {
   }
   req.status = status
   req.contentLength = len(body)
-  req.SetHeader("Date", req.httpDate(req.date))
+  req.SetHeader("Date", httpDate(req.date))
   if req.contentLength > 0 {
     req.SetHeader("Content-Type", req.contentType)
     req.SetHeader("Content-Length", strconv.Itoa(req.contentLength))
@@ -102,14 +107,4 @@ func (req *Request) logHit() {
                    req.status,
                    bytesSent)
 }
-
-// Format a given time for use with HTTP headers.
-func (req *Request) httpDate(t time.Time) string {
-  f := t.UTC().Format(time.RFC1123)
-  if strings.HasSuffix(f, "UTC") {
-    f = f[0:len(f)-3] + "GMT"
-  }
-  return f
-}
-
 
