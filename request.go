@@ -36,8 +36,8 @@ func (req *Request) AddHeader(name, val string) {
 
 // Set a cookie on the client browser. Expires indicates how many seconds in
 // the future the cookie is to expire. (use -1 for no expiry)
-func (req *Request) SetCookie(cookie *Cookie) {
-  req.AddHeader("Set-Cookie", cookie.marshal())
+func (req *Request) SetCookie(cookie *http.Cookie) {
+  http.SetCookie(req.w, cookie)
 }
 
 // Respond to the request with an HTTP OK (200) status code and the given
