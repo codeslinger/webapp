@@ -7,6 +7,10 @@ import (
   "time"
 )
 
+const (
+  persistentCookieAge = 2147483647
+)
+
 // --- REQUEST API ----------------------------------------------------------
 
 // The Request record encapsulates all the of the state required to handle
@@ -81,14 +85,15 @@ func (req *Request) Reply(status int, body string) {
     req.SetHeader("Connection", "close")
   }
   if req.session != nil {
-    sval, err := req.session.marshal(req.app.SessionName, req.app.SessionKey)
+    sval, err := req.session.marshal(req.app.SessionKey)
     if err != nil {
       req.app.Log.Error("failed to write session: %v", err)
     } else if len(sval) > 0 {
       http.SetCookie(req.w, &http.Cookie{
-        Name:   req.app.SessionName,
-        Value:  sval,
-        MaxAge: 0,
+        Name:     req.app.SessionName,
+        Value:    sval,
+        MaxAge:   persistentCookieAge,
+        HttpOnly: true,
       })
     }
   }
@@ -131,7 +136,7 @@ func newRequest(w http.ResponseWriter, r *http.Request, app *Webapp) *Request {
 // exists. Returns error if we failed to get the session cookie or it did not
 // validate. (i.e. was tampered with)
 func (req *Request) loadSession() error {
-  req.session = newSession()
+  req.session = newSession(req.app.SessionDuration)
   cookie, err := req.GetCookie(req.app.SessionName)
   if err == http.ErrNoCookie {
     return nil

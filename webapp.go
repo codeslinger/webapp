@@ -29,24 +29,26 @@ type RouteHandler func(*Request, []string)
 
 // A Webapp is the main edifice for a web application.
 type Webapp struct {
-  Log         *log.Logger
-  LogHits     bool
-  SessionName string
-  SessionKey  string
-  host        string
-  port        int
-  routes      []route
+  Log             *log.Logger
+  LogHits         bool
+  SessionName     string
+  SessionKey      string
+  SessionDuration int64
+  host            string
+  port            int
+  routes          []route
 }
 
 // Create a new Webapp instance. The host and port on which to listen are given,
 // as well as the Logger to use.
 func NewWebapp(host string, port int, log *log.Logger) *Webapp {
   app := &Webapp {
-    Log:         log,
-    LogHits:     true,
-    host:        host,
-    port:        port,
-    SessionName: "_session",
+    Log:             log,
+    LogHits:         true,
+    host:            host,
+    port:            port,
+    SessionName:     "_session",
+    SessionDuration: DefaultSessionDuration,
   }
   return app
 }
