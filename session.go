@@ -20,9 +20,9 @@ const (
 )
 
 var (
-  SessionKeyUndefined    = errors.New("SessionKey not defined")
-  InvalidSignature       = errors.New("Signature is invalid")
-  SessionExpired         = errors.New("Session has expired")
+  SessionKeyUndefined = errors.New("SessionKey not defined")
+  InvalidSignature    = errors.New("Signature is invalid")
+  SessionExpired      = errors.New("Session has expired")
 )
 
 type Session struct {
