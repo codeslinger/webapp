@@ -120,9 +120,10 @@ func (app *Webapp) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			req.Reply(500, "Internal server error")
 		}
-		return
+		goto out
 	}
 	req.NotFound("<h1>Not found</h1>")
+out:
 	if app.LogHits {
 		req.logHit()
 	}
