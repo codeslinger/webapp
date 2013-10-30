@@ -2,6 +2,7 @@
 package webapp
 
 import (
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"time"
@@ -102,6 +103,11 @@ func (req *Request) Reply(status int, body string) {
 	if req.r.Method != "HEAD" && req.contentLength > 0 {
 		req.w.Write([]byte(body))
 	}
+}
+
+// Retrieve the body of this request. Returns error if body could not be read.
+func (req *Request) Body() ([]byte, error) {
+	return ioutil.ReadAll(req.r.Body)
 }
 
 // Retrieve the session record.
