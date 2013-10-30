@@ -123,7 +123,7 @@ func (app *Webapp) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	req.NotFound("<h1>Not found</h1>")
-	if req.app.LogHits {
+	if app.LogHits {
 		req.logHit()
 	}
 }
