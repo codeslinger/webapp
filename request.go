@@ -28,6 +28,11 @@ type Request struct {
 	session       *Session
 }
 
+// Sets the value of the Content-Type header for the response.
+func (req *Request) SetContentType(val string) {
+	req.contentType = val
+}
+
 // Sets the named header to the given value. This will override any existing
 // value for the named header with the given value.
 func (req *Request) SetHeader(name, val string) {
