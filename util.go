@@ -2,16 +2,15 @@
 package webapp
 
 import (
-  "strings"
-  "time"
+	"strings"
+	"time"
 )
 
 // Format a given time for use with HTTP protocol.
 func httpDate(t time.Time) string {
-  f := t.UTC().Format(time.RFC1123)
-  if strings.HasSuffix(f, "UTC") {
-    f = f[0:len(f)-3] + "GMT"
-  }
-  return f
+	f := t.UTC().Format(time.RFC1123)
+	if strings.HasSuffix(f, "UTC") {
+		f = f[0:len(f)-3] + "GMT"
+	}
+	return f
 }
-
