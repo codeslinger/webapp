@@ -41,7 +41,7 @@ type Webapp struct {
 
 // Create a new Webapp instance. The host and port on which to listen are given,
 // as well as the Logger to use.
-func NewWebapp(host string, port int, log *log.Logger) *Webapp {
+func New(host string, port int, log *log.Logger) *Webapp {
 	app := &Webapp{
 		Log:             log,
 		LogHits:         true,
